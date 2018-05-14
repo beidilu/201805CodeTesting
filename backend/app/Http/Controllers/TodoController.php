@@ -17,11 +17,7 @@ class TodoController extends Controller
         //get all todos
         $todolist = Todo::all();
 
-        return response()->json([
-            "this uri is todos, http method is GET",
-            "page is used to show a list of todos",
-            "use this function to transfer array to json data"
-        ]);
+        return view('todo.index')->with('storedTasks', $todolist);
     }
 
     /**
@@ -31,13 +27,14 @@ class TodoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
+        $this->validate($request, ['taskname' =>'required|min:3|max:20',]);
+        $Todo = new Todo;
+        $Todo->task = 'afasdfsd'; //$request->taskname;
+        $Todo->status = 'pending';
+        $Todo->save();
         //
-        return response()->json([
-            "this uri is todos, http method is POST",
-            "page is used to store a new todo task into database",
-            'get all todo details from the request variable like $request->task'
-        ]);
+        return redirect()->route('todos.index');
     }
 
     /**
