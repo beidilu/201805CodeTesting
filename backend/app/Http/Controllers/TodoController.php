@@ -30,8 +30,8 @@ class TodoController extends Controller
     {   
         $this->validate($request, ['taskname' =>'required|min:3|max:20',]);
         $Todo = new Todo;
-        $Todo->task = 'afasdfsd'; //$request->taskname;
-        $Todo->status = 'pending';
+        $Todo->task = $request->taskname;
+        $Todo->status = ($request->status == 'on'?'complete':'pending');
         $Todo->save();
         //
         return redirect()->route('todos.index');
@@ -45,12 +45,10 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
-        //
-        return response()->json([
-            "this uri is todos/{todo}, http method is DELETE",
-            'everything inside {} means it is a parameter which will be retrieved by this function via $id variable',
-            'delete one specific todo '
-        ]);
+        $Todo = Todo::find($id);
+        $Todo->delete(); 
+        return redirect()->route('todos.index');
+ 
     }
 
     /**
@@ -63,13 +61,13 @@ class TodoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        //
-        return response()->json([
-            "this uri is todos/{todo}/edit, http method is GET",
-            'everything inside {} means it is a parameter which will be retrieved by this function via $id variable',
-            'retrieve the todo task which is intended to be edited and fit it in a form for user to edit'
-        ]);
+    {   
+        $Todo = Todo::find($id);
+
+        return view('todo.edit')->with('selected', $Todo);
+        // "this uri is todos/{todo}/edit, http method is GET",
+        //    'everything inside {} means it is a parameter which will be retrieved by this function via $id variable',
+        //    'retrieve the todo task which is intended to be edited and fit it in a form for user to edit'
     }
 
     /**
@@ -81,12 +79,17 @@ class TodoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, ['newtaskname' =>'required|min:3|max:20',]);
+        $Todo = Todo::find($id);
+        $Todo->task = $request->newtaskname;
+        $Todo->save();
+        return redirect()->route('todos.index');
+
         //
-        return response()->json([
-            "this uri is todos/{todo}, http method is PUT",
-            'everything inside {} means it is a parameter which will be retrieved by this function via $id variable',
-            'get the todo task data which is edited by user and update the same record in database'
-        ]);
+        //return response()->json([
+          //  "this uri is todos/{todo}, http method is PUT",
+           // 'everything inside {} means it is a parameter which will be retrieved by this function via $id variable',
+           // 'get the todo task data which is edited by user and update the same record in database'
     }
 
 

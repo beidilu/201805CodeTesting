@@ -28,7 +28,7 @@
                 <form action="{{ route('todos.store')  }}" method = 'POST'>
                     {{ csrf_field()  }}
 
-                    <p>Input something in the input box:</p>
+                    <p>Input task description in the box and check status:</p>
                       <input type="text" name="taskname"  >
                     <p>Status: <input type="checkbox" name="status"></p>
                     
@@ -40,18 +40,27 @@
                 @if (count($storedTasks) > 0)
                   <table class="table">
                     <thead>
-                      <th>Task #</th>
-                      <th>Name</th>
-                      <th>Edit</th>
+                      <th>id </th>
+                      <th>task</th>
+                      <th>status</th>
+                      <th>edit</th>
                       <th>Delete</th>
                     </thead>
-
+                   
                     <tbody>
                       @foreach ($storedTasks as $storedTask)
                         <tr>
                           <th>{{ $storedTask->id }}</th>
-                          <td>{{ $storedTask->name }}</td>
-
+                          <td>{{ $storedTask->task }}</td>
+                          <td>{{ $storedTask->status }}</td>
+                          <td><a href="{{route('todos.edit', [$storedTask->id])}}">edit</a></td>
+                          <td>
+                            <form action="{{ route('todos.destroy',[ $storedTask->id]) }}" method = 'post'>
+                              {{ csrf_field()  }}
+                              <input type="hidden" name="_method" value="Delete">
+                              <input type="submit" class= 'btn btn-primary' value="delete">
+                            </form>
+                          </td>
                         </tr>
                       @endforeach
                     </tbody>
@@ -59,11 +68,7 @@
                 @endif
 
             </div>
-            <ul>
-                <li>Bug milk</li>
-                <li>Code</li>
-                <li>Sleep</l
-            </ul>            
+           
         </div>
     </div>
 </div>
