@@ -1,14 +1,16 @@
 var app = angular.module('todoapp', []).constant('API_URL', 'http://localhost:8000/todos/');;
 
 app.controller('appCtrl', function($scope, $http, API_URL) {
-    $http.get(API_URL)
+    $scope.get = function(){
+        $http.get(API_URL)
         .then(function(response) {
             $scope.todos = response.data;
             console.log(response)
         },function(error){
             console.log(error)
         });
-
+    }
+    $scope.get();
     /**
      * TODO:
      * 1.use $http to call backend rest API
@@ -17,15 +19,16 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
      */
     //$scope.todoList = undefined;   
 
-    $scope.confirmDelete = function(id) {
+    $scope.confirmDelete = function(selectid) {
         $http({
                 method: 'DELETE',
-                url: API_URL + id
+                url: API_URL + selectid
         }).then(function(response) {
-            //console.log(data);
-            console.log(response);
-            var ind =  $scope.todos.findIndex((e) => {e.id == id});
+            /*var ind =  $scope.todos.findIndex((e) => {e.id == selectid});
             $scope.todos.splice(ind,1);
+            ng-repaet bug, still show deleted element if not the last one
+            */
+        $scope.get(); //stupid way
         },function(error) {
             console.log(error);
             console.log('Unable to delete');
