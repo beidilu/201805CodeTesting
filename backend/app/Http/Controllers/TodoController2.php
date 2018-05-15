@@ -17,8 +17,8 @@ class TodoController extends Controller
     {
         //get all todos
         $todolist = Todo::all();
-        return $todolist;
-        //return view('todo.index')->with('storedTasks', $todolist);
+        //return $todolist;
+        return view('todo.index')->with('storedTasks', $todolist);
     }
 
     /**
@@ -31,11 +31,11 @@ class TodoController extends Controller
     {   
         $this->validate($request, ['taskname' =>'required|min:3|max:20',]);
         $Todo = new Todo;
-        $Todo->task = $request->input('task');
-        $Todo->status = ($request->input('status') == True ? 'complete':'pending');
+        $Todo->task = $request->taskname;
+        $Todo->status = ($request->status == 'on'?'complete':'pending');
         $Todo->save();
         //
-        //return redirect()->route('todos.index');
+        return redirect()->route('todos.index');
     }
 
     /**
@@ -44,12 +44,12 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $Todo = Todo::find($request->input('id'));
+        $Todo = Todo::find($id);
         $Todo->delete(); 
-        return 'successfully deleted';
-        //return redirect()->route('todos.index');
+        
+        return redirect()->route('todos.index');
  
     }
 

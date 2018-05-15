@@ -6,33 +6,54 @@
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="./js/todoapp.js"></script>
     
 </head>
 
 <body>
 
-<div ng-app="todoapp" ng-controller="appCtrl">
-    <div class="row">
-        <form action=" @{{route('todos.store')  }} ">
-            <p>Input something in the input box:</p>
-            <p>Task: <input type="text" ng-model="name"></p>
-            <p ng-bind="name"></p>
-            <div >
-                <input type="submit" class="btn btn-primary " value="Add Task"></div>
-            </div>
-        </form>
-    </div>
-    
-    
-    <ul>
-        <li>Bug milk</li>
-        <li>Code</li>
-        <li>Sleep</l
-    </ul>
-</div>
+<div class="container"> 
+    <div class="col-md-offset-2 col-md-8">  
+        <div ng-app="todoapp" ng-controller="appCtrl">
+            <div class="row">
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-<script src="./js/todoapp.js"></script>
+                    <p>Input task description in the box and check status:</p>
+                    <p>Task: <input type="text" ng-model="taskname"></p>
+                    <p>Status: <input type="checkbox" ng-model="isdone"></p>
+                    <p> {{taskname}}</p>
+                    <div >
+                        <input type="submit" class="btn btn-primary " value="Add Task" ng-click="store()"></div>
+                    </div> 
+
+                
+                <table class="table">
+                    <thead>
+                      <th>id </th>
+                      <th>task</th>
+                      <th>status</th>
+                      <th>edit</th>
+                      <th>Delete</th>
+                    </thead>
+                   
+                    <tbody ng-repeat = 'todo in todos'>
+                        <tr>
+                          <th>{{ todo.id }}</th>
+                          <td>{{ todo.task }}</td>
+                          <td>{{ todo.status }}</td>
+                          <td><a href="">edit</a></td>
+                          <td>
+                              <input ng-click="confirmDelete(todo.id)" type="submit" class= 'btn btn-primary' value="delete">
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+            </div>
+        </div>
+    </div>
+</div>
+    
 
 </body>
 </html>

@@ -53,9 +53,9 @@
                           <th>{{ $storedTask->id }}</th>
                           <td>{{ $storedTask->task }}</td>
                           <td>{{ $storedTask->status }}</td>
-                          <td><a href="{{route('todos.edit', [$storedTask->id])}}">edit</a></td>
+                          <td><a href="{{route('todos.edit', [$storedTask->id])}}"></a></td>
                           <td>
-                            <form action="{{ route('todos.destroy',[ $storedTask->id]) }}" method = 'post'>
+                            <form action="{{ route('todos.destroy',[$storedTask->id]) }}" method = 'post'>
                               {{ csrf_field()  }}
                               <input type="hidden" name="_method" value="Delete">
                               <input type="submit" class= 'btn btn-primary' value="delete">
