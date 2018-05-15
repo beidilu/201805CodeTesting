@@ -18,12 +18,14 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
     //$scope.todoList = undefined;   
 
     $scope.confirmDelete = function(id) {
-    $http({
-            method: 'DELETE',
-            url: API_URL + id
+        $http({
+                method: 'DELETE',
+                url: API_URL + id
         }).then(function(response) {
             //console.log(data);
-            console.log('deleted')
+            console.log(response);
+            var ind =  $scope.todos.findIndex((e) => {e.id == id});
+            $scope.todos.splice(ind,1);
         },function(error) {
             console.log(error);
             console.log('Unable to delete');
@@ -34,16 +36,21 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
      * 1.Each task can be delete. when user click(need to create event handler) on that task.
      * 2.Send delete request to rest API to delete it in mysql database.(AJAX CALL)
      */
-    //$scope.isdone = False;
+    
+    $scope.taskname = 'Input';
+    $scope.isdone = 0;
     $scope.store = function() {
-    $http({
+        var stat = ($scope.isdone == 1 ? 'complete':'pending');
+        $http({
             method: 'POST',
             url: API_URL,
-            data: {task:$scope.taskname, status:$scope.isdone},
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            data: {task:$scope.taskname, status: stat}
         }).then(function(response) {
             console.log(response);
-            
+            var insertedId = response.data;
+            $scope.todos.push({id:insertedId, task:$scope.taskname, status:stat})
+            $scope.taskname = '';
+            $scope.isdone = 0;
         },function(error) {
             console.log(error);
             

@@ -9,7 +9,9 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
     <script src="./js/todoapp.js"></script>
-    
+    <style>
+        .submissionfield { width: 600px; height: 30px; border: 1px solid #999999; padding: 5px; }
+    </style>
 </head>
 
 <body>
@@ -19,10 +21,11 @@
         <div ng-app="todoapp" ng-controller="appCtrl">
             <div class="row">
 
-                    <p>Input task description in the box and check status:</p>
-                    <p>Task: <input type="text" ng-model="taskname"></p>
-                    <p>Status: <input type="checkbox" ng-model="isdone"></p>
-                    <p> {{taskname}}</p>
+                    <p> Input task description in the box and check status</p>
+                    <p>Task: <input type="text" ng-model="taskname" class="submissionfield"></p>
+                    <p>Status(is completed): <input type="checkbox" ng-model="isdone" ng-true-value="1" ng-false-value="0"></p>
+                    
+
                     <div >
                         <input type="submit" class="btn btn-primary " value="Add Task" ng-click="store()"></div>
                     </div> 

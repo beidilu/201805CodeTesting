@@ -29,12 +29,13 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {   
-        $this->validate($request, ['taskname' =>'required|min:3|max:20',]);
+        //$this->validate($request, [$request->task =>'required|min:3|max:20']);
+        //$Todo = App\Todo::create(['task' => '$request->task', 'status' => $request->status])
         $Todo = new Todo;
-        $Todo->task = $request->input('task');
-        $Todo->status = ($request->input('status') == True ? 'complete':'pending');
+        $Todo->task = $request->task;
+        $Todo->status = $request->status;
         $Todo->save();
-        //
+        return $Todo->id;
         //return redirect()->route('todos.index');
     }
 
@@ -44,10 +45,11 @@ class TodoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $Todo = Todo::find($request->input('id'));
+        $Todo = Todo::find($id);
         $Todo->delete(); 
+        
         return 'successfully deleted';
         //return redirect()->route('todos.index');
  
