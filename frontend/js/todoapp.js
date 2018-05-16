@@ -26,9 +26,9 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
         }).then(function(response) {
             /*var ind =  $scope.todos.findIndex((e) => {e.id == selectid});
             $scope.todos.splice(ind,1);
-            ng-repaet bug, still show deleted element if not the last one
+            ng-repaet bug, after deletion still show deleted element if not the last one
             */
-        $scope.get(); //stupid way
+            $scope.get(); //stupid way
         },function(error) {
             console.log(error);
             console.log('Unable to delete');
@@ -71,4 +71,25 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
      * optional tasks:
      * 1.edit todo task
      */
+     
+     $scope.show_edit = false;
+     $scope.display = function(sid){
+        $scope.show_edit = true;
+        $scope.selectedtask = $scope.todos.find(function(e){return e.id == sid});
+        //console.log($scope.selectedtask);
+     }
+    
+     $scope.edit = function(sid){
+        $http({
+            method: 'PUT',
+            url: API_URL + sid,
+            data: {id:sid, task:$scope.newtask, status:$scope.selectedtask.status}
+        }).then(function(response) {
+            $scope.selectedtask.task = $scope.newtask;
+            $scope.show_edit = false;
+        },function(error) {
+            console.log(error);
+            
+        });
+     }
 });

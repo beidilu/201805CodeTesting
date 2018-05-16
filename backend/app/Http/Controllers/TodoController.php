@@ -83,11 +83,15 @@ class TodoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, ['newtaskname' =>'required|min:3|max:20',]);
+        //$this->validate($request, ['newtaskname' =>'required|min:3|max:20',]);
         $Todo = Todo::find($id);
-        $Todo->task = $request->newtaskname;
+        $Todo->task = $request->task;
+        $Todo->status = $request->status;
         $Todo->save();
-        return redirect()->route('todos.index');
+        return $Todo->id;
+        //return $request;
+        //return $Todo->id;
+        //return redirect()->route('todos.index');
 
         //
         //return response()->json([
