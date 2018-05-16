@@ -28,10 +28,10 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
             $scope.todos.splice(ind,1);
             ng-repaet bug, after deletion still show deleted element if not the last one
             */
+            console.log('delete successful');
             $scope.get(); //stupid way
         },function(error) {
             console.log(error);
-            console.log('Unable to delete');
         });
     }
     /**
@@ -49,9 +49,9 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
             url: API_URL,
             data: {task:$scope.taskname, status: stat}
         }).then(function(response) {
-            console.log(response);
             var insertedId = response.data;
             $scope.todos.push({id:insertedId, task:$scope.taskname, status:stat})
+            console.log('post successful');
             $scope.taskname = '';
             $scope.isdone = 0;
         },function(error) {
@@ -73,13 +73,23 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
      */
      
      $scope.show_edit = false;
-     $scope.display = function(sid){
-        $scope.show_edit = true;
-        $scope.selectedtask = $scope.todos.find(function(e){return e.id == sid});
-        //console.log($scope.selectedtask);
+     $scope.edit = function(sid){
+        $http({
+            method: 'GET',
+            url: API_URL + sid + '/edit',
+            data: {id:sid}
+        }).then(function(response) {
+            console.log(response);
+            $scope.show_edit = true;
+            $scope.selectedtask = $scope.todos.find(function(e){return e.id == response.data.id});
+            console.log('edit is allowed')
+        },function(error) {
+            console.log(error);
+        });
+        //$scope.selectedtask = $scope.todos.find(function(e){return e.id == sid});
      }
     
-     $scope.edit = function(sid){
+     $scope.update = function(sid){
         $http({
             method: 'PUT',
             url: API_URL + sid,
@@ -87,9 +97,9 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
         }).then(function(response) {
             $scope.selectedtask.task = $scope.newtask;
             $scope.show_edit = false;
+            console.log('update is successful')
         },function(error) {
             console.log(error);
-            
         });
      }
 });

@@ -48,7 +48,7 @@
                           <td>{{ todo.task }}</td>
                           <td>{{ todo.status }}</td>
                           <td>
-                              <input ng-click="display(todo.id)" type="submit" class= 'btn btn-primary' value="edit">
+                              <input ng-click="edit(todo.id)" type="submit" class= 'btn btn-primary' value="edit">
                           </td>
                           <td>
                               <input ng-click="confirmDelete(todo.id)" type="submit" class= 'btn btn-primary' value="delete">
@@ -63,7 +63,7 @@
                   <div ng-model="selectedtask.id">{{selectedtask.id}} </div>
                   <p>old value:  {{selectedtask.task}}</p>
                   <p>new value<input type="text" ng-model="$parent.newtask" ></p>
-                  <input ng-click="edit(selectedtask.id)" type="submit" class= 'btn btn-primary' value="confirm">
+                  <input ng-click="update(selectedtask.id)" type="submit" class= 'btn btn-primary' value="confirm">
 
                 </div>
 

@@ -1,8 +1,0 @@
-
-<form action="{{route('todos.update', [$selected->id]) }}" method = 'Post'>
-
-	<input type="text" value= "{{$selected->task}}" name = "newtaskname">
-	<input type="submit">
-	<a href="{{ route('todos.index')  }}">back</a>
-
-</form>

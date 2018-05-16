@@ -67,8 +67,9 @@ class TodoController extends Controller
     public function edit($id)
     {   
         $Todo = Todo::find($id);
+        return $Todo;
+        //return view('todo.edit')->with('selected', $Todo);
 
-        return view('todo.edit')->with('selected', $Todo);
         // "this uri is todos/{todo}/edit, http method is GET",
         //    'everything inside {} means it is a parameter which will be retrieved by this function via $id variable',
         //    'retrieve the todo task which is intended to be edited and fit it in a form for user to edit'
