@@ -24,12 +24,13 @@ app.controller('appCtrl', function($scope, $http, API_URL) {
                 method: 'DELETE',
                 url: API_URL + selectid
         }).then(function(response) {
-            /*var ind =  $scope.todos.findIndex((e) => {e.id == selectid});
+            var ind =  $scope.todos.findIndex(function(e){return e.id == selectid});
+            //cannot use arrow func
             $scope.todos.splice(ind,1);
-            ng-repaet bug, after deletion still show deleted element if not the last one
-            */
+            //ng-repaet bug, after deletion still show deleted element if not the last one
+            
             console.log('delete successful');
-            $scope.get(); //stupid way
+            //$scope.get(); //stupid way
         },function(error) {
             console.log(error);
         });
